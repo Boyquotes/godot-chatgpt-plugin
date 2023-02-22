@@ -1,0 +1,95 @@
+[gd_scene format=2]
+
+[node name="MainPanel" type="Control"]
+margin_right = 1280.0
+margin_bottom = 720.0
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer"]
+margin_right = 1260.0
+margin_bottom = 700.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/HSplitContainer"]
+margin_right = 1139.0
+margin_bottom = 700.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/HSplitContainer/VSplitContainer"]
+margin_right = 1139.0
+margin_bottom = 664.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+collapsed = true
+
+[node name="Label" type="Label" parent="MarginContainer/HSplitContainer/VSplitContainer/VSplitContainer"]
+margin_right = 1139.0
+margin_bottom = 14.0
+text = "Lorem ipsum dolor sit amet."
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HSplitContainer/VSplitContainer/VSplitContainer"]
+margin_top = 26.0
+margin_right = 1139.0
+margin_bottom = 664.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor nulla sit amet luctus venenatis. Integer sit amet tempor nisl. Donec placerat eros sit amet pulvinar dapibus. Aliquam ultrices ornare lorem in tincidunt. Nam posuere, mi et dictum hendrerit, sem tellus pellentesque eros, non viverra ipsum augue pharetra sapien. Maecenas lacinia nibh urna, nec rutrum dolor bibendum in. Quisque eget consectetur augue. Nulla id commodo urna, quis facilisis nisi.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis dui id libero suscipit commodo et in tortor. Ut non ipsum neque. Mauris efficitur lorem at vestibulum scelerisque. Nunc eget laoreet diam. Nulla euismod malesuada nulla nec commodo. Nulla ultrices tortor lacus, vel pharetra augue pharetra eu. Nunc placerat lorem arcu, id bibendum neque tincidunt sit amet.
+
+Praesent facilisis consequat elit at malesuada. Vestibulum nec ipsum ac velit varius ornare. In et felis ac orci volutpat finibus sit amet sed sapien. Phasellus quis eros non lorem placerat facilisis at sit amet nunc. Integer mattis tristique felis, vitae elementum libero interdum sed. Fusce ipsum lacus, bibendum congue ornare at, mollis in nisl. Pellentesque in erat sed urna volutpat aliquam. Suspendisse mattis vitae lorem eu malesuada. Nulla in metus est. Nam consequat accumsan diam et pretium. Donec tempus dolor eu diam ultrices, ac imperdiet neque placerat. Aliquam auctor enim dolor, eu tempus elit consequat vel. Mauris ut odio enim.
+
+Vivamus varius nisl et nulla dapibus, ut efficitur diam pulvinar. Phasellus lobortis lobortis erat ut pulvinar. Sed commodo gravida lectus. Pellentesque suscipit nunc elit, sit amet lobortis diam pharetra eu. Maecenas varius, tortor ut tempus tincidunt, tellus velit ornare diam, ac volutpat orci massa sit amet nisi. Sed condimentum metus a maximus hendrerit. Curabitur mauris nulla, interdum ut interdum eu, egestas a sapien. Nam mattis odio eu magna ullamcorper, ut blandit turpis porttitor. Phasellus convallis porttitor nunc ultricies semper. In ullamcorper ligula vel felis convallis, eu imperdiet mauris accumsan. Quisque luctus eros in urna dignissim elementum id at turpis. Etiam vel turpis at magna sagittis fermentum.
+
+Nam lobortis commodo lorem quis semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In a hendrerit leo. Aenean lorem diam, mollis et lobortis vel, dignissim ut neque. Pellentesque bibendum nulla ut justo tempus, in egestas libero venenatis. Nulla ac augue quis ante dictum egestas. Aliquam et rhoncus est, sed elementum magna. Nullam in tortor nec eros ornare consequat. Aenean ac ultricies ante. Proin dignissim scelerisque vehicula. Sed pellentesque pretium volutpat. Donec finibus ac diam in ullamcorper. Nullam nibh risus, viverra quis nisi ut, sollicitudin euismod elit. Nulla maximus vitae lacus vitae pellentesque. Duis vitae leo est. Integer id semper eros, non tincidunt ligula."
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor nulla sit amet luctus venenatis. Integer sit amet tempor nisl. Donec placerat eros sit amet pulvinar dapibus. Aliquam ultrices ornare lorem in tincidunt. Nam posuere, mi et dictum hendrerit, sem tellus pellentesque eros, non viverra ipsum augue pharetra sapien. Maecenas lacinia nibh urna, nec rutrum dolor bibendum in. Quisque eget consectetur augue. Nulla id commodo urna, quis facilisis nisi.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis dui id libero suscipit commodo et in tortor. Ut non ipsum neque. Mauris efficitur lorem at vestibulum scelerisque. Nunc eget laoreet diam. Nulla euismod malesuada nulla nec commodo. Nulla ultrices tortor lacus, vel pharetra augue pharetra eu. Nunc placerat lorem arcu, id bibendum neque tincidunt sit amet.
+
+Praesent facilisis consequat elit at malesuada. Vestibulum nec ipsum ac velit varius ornare. In et felis ac orci volutpat finibus sit amet sed sapien. Phasellus quis eros non lorem placerat facilisis at sit amet nunc. Integer mattis tristique felis, vitae elementum libero interdum sed. Fusce ipsum lacus, bibendum congue ornare at, mollis in nisl. Pellentesque in erat sed urna volutpat aliquam. Suspendisse mattis vitae lorem eu malesuada. Nulla in metus est. Nam consequat accumsan diam et pretium. Donec tempus dolor eu diam ultrices, ac imperdiet neque placerat. Aliquam auctor enim dolor, eu tempus elit consequat vel. Mauris ut odio enim.
+
+Vivamus varius nisl et nulla dapibus, ut efficitur diam pulvinar. Phasellus lobortis lobortis erat ut pulvinar. Sed commodo gravida lectus. Pellentesque suscipit nunc elit, sit amet lobortis diam pharetra eu. Maecenas varius, tortor ut tempus tincidunt, tellus velit ornare diam, ac volutpat orci massa sit amet nisi. Sed condimentum metus a maximus hendrerit. Curabitur mauris nulla, interdum ut interdum eu, egestas a sapien. Nam mattis odio eu magna ullamcorper, ut blandit turpis porttitor. Phasellus convallis porttitor nunc ultricies semper. In ullamcorper ligula vel felis convallis, eu imperdiet mauris accumsan. Quisque luctus eros in urna dignissim elementum id at turpis. Etiam vel turpis at magna sagittis fermentum.
+
+Nam lobortis commodo lorem quis semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In a hendrerit leo. Aenean lorem diam, mollis et lobortis vel, dignissim ut neque. Pellentesque bibendum nulla ut justo tempus, in egestas libero venenatis. Nulla ac augue quis ante dictum egestas. Aliquam et rhoncus est, sed elementum magna. Nullam in tortor nec eros ornare consequat. Aenean ac ultricies ante. Proin dignissim scelerisque vehicula. Sed pellentesque pretium volutpat. Donec finibus ac diam in ullamcorper. Nullam nibh risus, viverra quis nisi ut, sollicitudin euismod elit. Nulla maximus vitae lacus vitae pellentesque. Duis vitae leo est. Integer id semper eros, non tincidunt ligula."
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/HSplitContainer/VSplitContainer"]
+margin_top = 676.0
+margin_right = 1139.0
+margin_bottom = 700.0
+size_flags_horizontal = 3
+collapsed = true
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer"]
+margin_right = 1029.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Button" type="Button" parent="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer"]
+margin_left = 1041.0
+margin_right = 1139.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+text = "Send"
+
+[node name="ItemList" type="ItemList" parent="MarginContainer/HSplitContainer"]
+margin_left = 1151.0
+margin_right = 1260.0
+margin_bottom = 700.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "Item 3", null, false ]
