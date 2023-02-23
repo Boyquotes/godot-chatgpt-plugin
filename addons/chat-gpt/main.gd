@@ -14,10 +14,15 @@ func _enter_tree():
 	# Hide the main panel. Very much required.
 	make_visible(false)
 
+	ProjectSettings.set_setting("plugins/chatgpt/openai_api_key", "")
+
 
 func _exit_tree():
 	if main_panel_instance:
 		main_panel_instance.queue_free()
+
+	if ProjectSettings.has_setting("plugins/chatgpt/openai_api_key"):
+		ProjectSettings.clear("plugins/chatgpt/openai_api_key")
 
 
 func has_main_screen():
