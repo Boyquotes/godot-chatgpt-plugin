@@ -1,45 +1,24 @@
-# 👋 Welcome to A Product
+---
+description: >-
+  Godot plugin that adds Assisted Mode (also AI enhanced mode) using OpenAI's
+  GPT-3 LLM
+---
 
-{% hint style="info" %}
-**GitBook tip:** your product docs aren't just a reference of all your features! use them to encourage folks to perform certain actions and discover the value in your product.
-{% endhint %}
+# 🤖 godot-chatgpt-plugin
 
 ## Overview
 
-Here are a couple of example overviews from products with really great docs:
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pulvinar porta augue eu mollis. Donec ornare, diam eget iaculis ultricies, velit tortor laoreet risus, quis dapibus nisi velit ac ex. Aliquam luctus ex in justo commodo tincidunt. Pellentesque augue leo, vehicula id ante ac, convallis pellentesque augue.
 
-> Loom is a video messaging tool that helps you get your message across through instantly shareable videos.
->
-> With Loom, you can record your camera, microphone, and desktop simultaneously. Your video is then instantly available to share through Loom's patented technology.
->
-> — From the [Loom Docs](https://support.loom.com/hc/en-us/articles/360002158057-What-is-Loom-)
+## Getting set up
 
-> The Mailchimp Marketing API provides programmatic access to Mailchimp data and functionality, allowing developers to build custom features to do things like sync email activity and campaign analytics with their database, manage audiences and campaigns, and more.
->
-> — From the [Mailchimp Marketing API docs](https://mailchimp.com/developer/marketing/docs/fundamentals/)
+* [Download](https://downloads.tuxfamily.org/godotengine/3.5.1/) latest stable Godot 3.x version
+* [Grab](https://platform.openai.com/account/api-keys) a brand new OpenAI account API key
+* Download this project as zip, uncompress and copy the **addons** folder into your project root directory
+* Enable this plugin in the **Project Settings** window, under _Plugins_ tab
 
-## Quick links
+<figure><img src=".gitbook/assets/Screenshot from 2023-02-27 16-53-34.png" alt=""><figcaption></figcaption></figure>
 
-{% content-ref url="overview/what-we-do.md" %}
-[what-we-do.md](overview/what-we-do.md)
-{% endcontent-ref %}
+* Copy your OpenAI account API key in the plugin's settings
 
-{% content-ref url="overview/our-features.md" %}
-[our-features.md](overview/our-features.md)
-{% endcontent-ref %}
-
-## Get Started
-
-We've put together some helpful guides for you to get setup with our product quickly and easily.
-
-{% content-ref url="fundamentals/getting-set-up/" %}
-[getting-set-up](fundamentals/getting-set-up/)
-{% endcontent-ref %}
-
-{% content-ref url="fundamentals/getting-set-up/setting-permissions.md" %}
-[setting-permissions.md](fundamentals/getting-set-up/setting-permissions.md)
-{% endcontent-ref %}
-
-{% content-ref url="fundamentals/getting-set-up/inviting-members.md" %}
-[inviting-members.md](fundamentals/getting-set-up/inviting-members.md)
-{% endcontent-ref %}
+<figure><img src=".gitbook/assets/Screenshot from 2023-02-27 16-56-03.png" alt=""><figcaption></figcaption></figure>
