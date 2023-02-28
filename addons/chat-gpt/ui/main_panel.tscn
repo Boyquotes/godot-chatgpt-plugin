@@ -82,5 +82,8 @@ items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "
 
 [node name="HTTP" parent="." instance=ExtResource( 1 )]
 
+[connection signal="focus_entered" from="." to="." method="_on_MainPanel_focus_entered"]
+[connection signal="text_entered" from="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer/Prompt_LineEdit" to="." method="_on_Prompt_LineEdit_text_entered"]
 [connection signal="pressed" from="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer/Send_Button" to="." method="_on_Send_Button_pressed"]
-[connection signal="_completed" from="HTTP" to="." method="_on_HTTP_completed"]
+[connection signal="completions_request_completed" from="HTTP" to="." method="_on_HTTP_completed"]
+[connection signal="error" from="HTTP" to="." method="_on_HTTP_error"]

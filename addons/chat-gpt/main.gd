@@ -15,6 +15,7 @@ func _enter_tree():
 	make_visible(false)
 
 	ProjectSettings.set_setting("plugins/chatgpt/openai_api_key", "")
+	connect("main_screen_changed", main_panel_instance, "_on_main_screen_changed")
 
 
 func _exit_tree():

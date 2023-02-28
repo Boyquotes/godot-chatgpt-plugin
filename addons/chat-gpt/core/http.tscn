@@ -2,8 +2,6 @@
 
 [ext_resource path="res://addons/chat-gpt/core/http.gd" type="Script" id=1]
 
-[node name="HTTPRequest" type="HTTPRequest"]
+[node name="HTTP" type="HTTPRequest"]
 use_threads = true
 script = ExtResource( 1 )
-
-[connection signal="request_completed" from="." to="." method="_on_request_completed"]
