@@ -9,7 +9,10 @@ signal images_request_completed(results)
 
 signal error()
 
+signal image_downloaded(texture)
 
+
+# CHATBOT
 func _on_completions_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
 	var json = JSON.parse(body.get_string_from_utf8())
 	match response_code:
@@ -42,3 +45,53 @@ func completions(prompt: String):
 
 	connect("request_completed", self, "_on_completions_request_completed", [], CONNECT_ONESHOT)
 	request_raw(endpoint + "completions", headers, false, HTTPClient.METHOD_POST, JSON.print(request_params).to_utf8())
+
+
+# IMAGE GENERATION
+func _on_image_generation_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
+	var json = JSON.parse(body.get_string_from_utf8())
+	match response_code:
+		200:
+			var textures : Array
+			for image in json.result.data:
+				var image_download = HTTPRequest.new()#http_texture_download.instance()
+				add_child(image_download)
+				image_download.connect("request_completed", self, "_on_image_download_request_completed")
+
+				var http_error = image_download.request(image.url)
+				if http_error == OK:
+					var texture = yield(self, "image_downloaded")
+					textures.push_back(texture)
+					image_download.queue_free()
+				else:
+					print("An error occurred in the HTTP request.")
+
+			emit_signal("images_request_completed", textures)
+
+
+func _on_image_download_request_completed(result, response_code, headers, body):
+	var image = Image.new()
+	var image_error = image.load_png_from_buffer(body)
+	if image_error != OK:
+		print("An error occurred while trying to display the image.")
+
+	var texture = ImageTexture.new()
+	texture.create_from_image(image)
+	emit_signal("image_downloaded", texture)
+
+
+func image_generation(prompt: String):
+	var request_params = {
+		"prompt": prompt,
+		"n": 4,
+		# Must be one of 256x256, 512x512, or 1024x1024
+		"size": "1024x1024",
+	}
+
+	var headers = [
+		"Authorization: Bearer " + ProjectSettings.get("plugins/chatgpt/openai_api_key"),
+		"Content-Type: application/json",
+	]
+
+	connect("request_completed", self, "_on_image_generation_request_completed", [], CONNECT_ONESHOT)
+	request_raw(endpoint + "images/generations", headers, false, HTTPClient.METHOD_POST, JSON.print(request_params).to_utf8())
