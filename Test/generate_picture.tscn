@@ -1,15 +1,25 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://monster.png" type="Texture" id=1]
+[ext_resource path="res://addons/chat-gpt/core/http.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Test/generate_picture.gd" type="Script" id=3]
 
 [node name="GeneratePicture" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 3 )
 
 [node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.898039, 0.898039, 0.898039, 1 )
+
+[node name="Prompt_label" type="Label" parent="Background"]
+margin_left = 100.0
+margin_top = 62.0
+margin_right = 924.0
+margin_bottom = 76.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Background"]
 anchor_right = 1.0
@@ -86,3 +96,10 @@ size_flags_vertical = 3
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
+
+[node name="HTTP" parent="." instance=ExtResource( 2 )]
+
+[connection signal="text_entered" from="Background/MarginContainer/VBoxContainer/HSplitContainer/PromtEdit" to="." method="_on_PromtEdit_text_entered"]
+[connection signal="pressed" from="Background/MarginContainer/VBoxContainer/HSplitContainer/Button" to="." method="_on_Send_Button_pressed"]
+[connection signal="image_downloaded" from="HTTP" to="." method="_on_HTTP_image_downloaded"]
+[connection signal="images_request_completed" from="HTTP" to="." method="_on_HTTP_images_request_completed"]
