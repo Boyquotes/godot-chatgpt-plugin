@@ -4,8 +4,9 @@
 [ext_resource path="res://addons/chat-gpt/ui/main_panel.gd" type="Script" id=2]
 
 [node name="MainPanel" type="Control"]
-margin_right = 1280.0
-margin_bottom = 720.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 2 )
 
@@ -18,53 +19,51 @@ margin_right = -10.0
 margin_bottom = -10.0
 
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer"]
-margin_right = 1260.0
-margin_bottom = 700.0
+margin_right = 1004.0
+margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/HSplitContainer"]
-margin_right = 1139.0
-margin_bottom = 700.0
+margin_right = 906.0
+margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/HSplitContainer/VSplitContainer"]
-margin_right = 1139.0
-margin_bottom = 664.0
+[node name="VSplitContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer/VSplitContainer"]
+margin_right = 906.0
+margin_bottom = 544.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-collapsed = true
 
 [node name="Title_Label" type="Label" parent="MarginContainer/HSplitContainer/VSplitContainer/VSplitContainer"]
-margin_right = 1139.0
+margin_right = 906.0
 margin_bottom = 14.0
 
 [node name="Response_RichText" type="RichTextLabel" parent="MarginContainer/HSplitContainer/VSplitContainer/VSplitContainer"]
-margin_top = 26.0
-margin_right = 1139.0
-margin_bottom = 664.0
+margin_top = 18.0
+margin_right = 906.0
+margin_bottom = 544.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
 
-[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/HSplitContainer/VSplitContainer"]
-margin_top = 676.0
-margin_right = 1139.0
-margin_bottom = 700.0
+[node name="HSplitContainer" type="HBoxContainer" parent="MarginContainer/HSplitContainer/VSplitContainer"]
+margin_top = 556.0
+margin_right = 906.0
+margin_bottom = 580.0
 size_flags_horizontal = 3
-collapsed = true
 
 [node name="Prompt_LineEdit" type="LineEdit" parent="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer"]
-margin_right = 1029.0
+margin_right = 820.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Send_Button" type="Button" parent="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer"]
-margin_left = 1041.0
-margin_right = 1139.0
+margin_left = 824.0
+margin_right = 906.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -72,9 +71,9 @@ size_flags_stretch_ratio = 0.1
 text = "Send"
 
 [node name="ItemList" type="ItemList" parent="MarginContainer/HSplitContainer"]
-margin_left = 1151.0
-margin_right = 1260.0
-margin_bottom = 700.0
+margin_left = 918.0
+margin_right = 1004.0
+margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
