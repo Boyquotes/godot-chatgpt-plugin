@@ -3,12 +3,14 @@ extends HTTPRequest
 
 const endpoint = "https://api.openai.com/v1/"
 
-
+# USE THIS SIGNALS TO GET RESULTS
 signal completions_request_completed(result)
 signal images_request_completed(results)
 
+# EXCEPTION SIGNALS
 signal error()
 
+# INTERNAL SIGNALS (DON'T USE)
 signal image_downloaded(texture)
 
 
@@ -67,6 +69,9 @@ func _on_image_generation_request_completed(result: int, response_code: int, hea
 					print("An error occurred in the HTTP request.")
 
 			emit_signal("images_request_completed", textures)
+		_:
+			printerr(JSON.print(json.result.error.message))
+			emit_signal("error")
 
 
 func _on_image_download_request_completed(result, response_code, headers, body):
