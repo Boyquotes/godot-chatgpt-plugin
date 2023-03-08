@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/chat-gpt/core/http.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Test/generate_picture.gd" type="Script" id=3]
-[ext_resource path="res://Test/generated_picture.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/chat-gpt/ui/generate_images/generate_picture.gd" type="Script" id=3]
+[ext_resource path="res://addons/chat-gpt/ui/generate_images/generated_picture.tscn" type="PackedScene" id=4]
 
 [node name="GeneratePicture" type="Control"]
 anchor_right = 1.0

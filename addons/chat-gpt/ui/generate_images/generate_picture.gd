@@ -2,17 +2,12 @@ tool
 extends Control
 
 
-const generated_picture = preload("res://Test/generated_picture.tscn")
+const generated_picture = preload("res://addons/chat-gpt/ui/generate_images/generated_picture.tscn")
 
 onready var results_container = $MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer
 onready var prompt_text = $MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HSplitContainer/PromptEdit
 onready var prompt_label = $MarginContainer/VBoxContainer/Prompt_label
 onready var send_button = $MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HSplitContainer/Button
-
-
-func _on_main_screen_changed(screen_name: String):
-	if screen_name == "Chat GPT Plugin":
-		prompt_text.grab_focus()
 
 
 func _on_PromtEdit_text_entered(_new_text: String) -> void:

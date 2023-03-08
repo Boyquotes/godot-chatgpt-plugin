@@ -22,10 +22,5 @@ func _on_Prompt_LineEdit_text_entered(_new_text):
 	_on_Send_Button_pressed()
 
 
-func _on_main_screen_changed(screen_name: String):
-	if screen_name == "Chat GPT Plugin":
-		prompt_text.grab_focus()
-
-
 func _on_HTTP_error():
 	response_text.text = "ERROR. Check the Output Log"

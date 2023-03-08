@@ -1,14 +1,13 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/chat-gpt/core/http.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/chat-gpt/ui/main_panel.gd" type="Script" id=2]
+[ext_resource path="res://addons/chat-gpt/ui/chat/main_panel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/chat-gpt/ui/generate_images/generate_picture.tscn" type="PackedScene" id=2]
 
-[node name="MainPanel" type="Control"]
+[node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -17,72 +16,25 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
+__meta__ = {
+"_editor_description_": ""
+}
 
-[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer"]
+[node name="TabContainer" type="TabContainer" parent="MarginContainer"]
 margin_right = 1004.0
 margin_bottom = 580.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/HSplitContainer"]
-margin_right = 906.0
-margin_bottom = 580.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="Chat" parent="MarginContainer/TabContainer" instance=ExtResource( 1 )]
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
 
-[node name="VSplitContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer/VSplitContainer"]
-margin_right = 906.0
-margin_bottom = 544.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Title_Label" type="Label" parent="MarginContainer/HSplitContainer/VSplitContainer/VSplitContainer"]
-margin_right = 906.0
-margin_bottom = 14.0
-
-[node name="Response_RichText" type="RichTextLabel" parent="MarginContainer/HSplitContainer/VSplitContainer/VSplitContainer"]
-margin_top = 18.0
-margin_right = 906.0
-margin_bottom = 544.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-bbcode_enabled = true
-
-[node name="HSplitContainer" type="HBoxContainer" parent="MarginContainer/HSplitContainer/VSplitContainer"]
-margin_top = 556.0
-margin_right = 906.0
-margin_bottom = 580.0
-size_flags_horizontal = 3
-
-[node name="Prompt_LineEdit" type="LineEdit" parent="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer"]
-margin_right = 820.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-caret_blink = true
-caret_blink_speed = 0.5
-
-[node name="Send_Button" type="Button" parent="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer"]
-margin_left = 824.0
-margin_right = 906.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
-text = "Send"
-
-[node name="ItemList" type="ItemList" parent="MarginContainer/HSplitContainer"]
-margin_left = 918.0
-margin_right = 1004.0
-margin_bottom = 580.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
-items = [ "Item 0", null, false, "Item 1", null, false, "Item 2", null, false, "Item 3", null, false ]
-
-[node name="HTTP" parent="." instance=ExtResource( 1 )]
-
-[connection signal="focus_entered" from="." to="." method="_on_MainPanel_focus_entered"]
-[connection signal="text_entered" from="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer/Prompt_LineEdit" to="." method="_on_Prompt_LineEdit_text_entered"]
-[connection signal="pressed" from="MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer/Send_Button" to="." method="_on_Send_Button_pressed"]
-[connection signal="completions_request_completed" from="HTTP" to="." method="_on_HTTP_completed"]
-[connection signal="error" from="HTTP" to="." method="_on_HTTP_error"]
+[node name="Generate Picture" parent="MarginContainer/TabContainer" instance=ExtResource( 2 )]
+visible = false
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
