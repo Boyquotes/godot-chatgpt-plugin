@@ -14,16 +14,17 @@ func _enter_tree():
 	# Hide the main panel. Very much required.
 	make_visible(false)
 
-	ProjectSettings.set_setting("plugins/chatgpt/openai_api_key", "")
-	connect("main_screen_changed", main_panel_instance, "_on_main_screen_changed")
+	if not ProjectSettings.has_setting("plugins/chatgpt/openai_api_key"):
+		ProjectSettings.set_setting("plugins/chatgpt/openai_api_key", "")
+	# connect("main_screen_changed", main_panel_instance, "_on_main_screen_changed")
 
 
 func _exit_tree():
 	if main_panel_instance:
 		main_panel_instance.queue_free()
 
-	if ProjectSettings.has_setting("plugins/chatgpt/openai_api_key"):
-		ProjectSettings.clear("plugins/chatgpt/openai_api_key")
+#	if ProjectSettings.has_setting("plugins/chatgpt/openai_api_key"):
+#		ProjectSettings.clear("plugins/chatgpt/openai_api_key")
 
 
 func has_main_screen():
@@ -36,7 +37,7 @@ func make_visible(visible):
 
 
 func get_plugin_name():
-	return "Chat GPT Plugin"
+	return "AI Assist"
 
 
 func get_plugin_icon():

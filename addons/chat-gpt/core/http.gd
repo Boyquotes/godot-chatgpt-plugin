@@ -30,10 +30,10 @@ func _on_completions_request_completed(result: int, response_code: int, headers:
 
 func completions(prompt: String):
 	var request_params = {
-		"model": "code-davinci-002",
+		"model": "text-davinci-003",
 		"prompt": prompt,
 		"max_tokens": 1920,
-		"temperature": 0.9,
+		"temperature": 0,
 		"top_p": 1,
 		"best_of": 5,
 		"frequency_penalty": 0.5,
