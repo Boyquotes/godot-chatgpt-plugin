@@ -30,7 +30,7 @@ func _on_completions_request_completed(result: int, response_code: int, headers:
 
 func completions(prompt: String):
 	var request_params = {
-		"model": "code-cushman-001",
+		"model": "code-davinci-002",
 		"prompt": prompt,
 		"max_tokens": 1920,
 		"temperature": 0.9,
