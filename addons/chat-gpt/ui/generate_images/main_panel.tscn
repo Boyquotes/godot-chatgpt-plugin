@@ -128,22 +128,56 @@ expand = true
 stretch_mode = 6
 
 [node name="Previous" type="Button" parent="PreviewDialog/Control"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_top = -20.0
-margin_right = 40.0
-margin_bottom = 20.0
+anchor_top = 0.46
+anchor_right = 0.0533333
+anchor_bottom = 0.54
 focus_mode = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Next" type="Button" parent="PreviewDialog/Control"]
-anchor_left = 1.0
-anchor_top = 0.5
+anchor_left = 0.946667
+anchor_top = 0.46
 anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -40.0
-margin_top = -20.0
+anchor_bottom = 0.54
+focus_mode = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PreviewDialog/Control"]
+anchor_left = 0.8
+anchor_right = 1.0
+anchor_bottom = 0.4
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="GenerateVariation" type="Button" parent="PreviewDialog/Control/VBoxContainer"]
+margin_right = 150.0
 margin_bottom = 20.0
 focus_mode = 1
+size_flags_horizontal = 3
+text = "Generate Variation"
+
+[node name="SaveImage" type="Button" parent="PreviewDialog/Control/VBoxContainer"]
+margin_top = 30.0
+margin_right = 150.0
+margin_bottom = 50.0
+focus_mode = 1
+size_flags_horizontal = 3
+text = "Save Image As..."
+
+[node name="SaveImageDialog" type="FileDialog" parent="."]
+visible = true
+margin_right = 315.0
+margin_bottom = 130.0
+window_title = "Save Image"
+mode_overrides_title = false
+access = 2
+filters = PoolStringArray( "*.png" )
 
 [connection signal="images_request_completed" from="HTTP" to="." method="_on_HTTP_images_request_completed"]
 [connection signal="text_entered" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HSplitContainer/PromptEdit" to="." method="_on_PromtEdit_text_entered"]
@@ -151,3 +185,5 @@ focus_mode = 1
 [connection signal="gui_input" from="PreviewDialog/Control" to="." method="_on_Close_gui_input"]
 [connection signal="pressed" from="PreviewDialog/Control/Previous" to="." method="_on_Previous_pressed"]
 [connection signal="pressed" from="PreviewDialog/Control/Next" to="." method="_on_Next_pressed"]
+[connection signal="pressed" from="PreviewDialog/Control/VBoxContainer/SaveImage" to="." method="_on_SaveImage_pressed"]
+[connection signal="file_selected" from="SaveImageDialog" to="." method="_on_SaveImageDialog_file_selected"]

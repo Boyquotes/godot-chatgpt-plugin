@@ -11,7 +11,7 @@ onready var prompt_text = $MarginContainer/VBoxContainer/MarginContainer/VBoxCon
 onready var prompt_label = $MarginContainer/VBoxContainer/Prompt_label
 onready var send_button = $MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HSplitContainer/Button
 onready var preview_dialog_texture = $PreviewDialog/Control/Preview/TextureRect
-onready var root_node = get_node(root)
+onready var editor_interface = get_node(root).get_meta("editor_interface")
 
 
 var current_dialog_index = -1
@@ -47,7 +47,7 @@ func _on_Picture_gui_input(event, index):
 		event.is_pressed():
 			preview_dialog_texture.texture = results_container.get_child(index).texture
 			current_dialog_index = index
-			$PreviewDialog.popup(root_node.get_meta("editor_viewport").get_global_rect())
+			$PreviewDialog.popup(editor_interface.get_editor_viewport().get_global_rect())
 
 
 func _on_Previous_pressed():
@@ -65,3 +65,14 @@ func _on_Close_gui_input(event):
 		event.button_index == 1 and \
 		event.is_pressed():
 			$PreviewDialog.hide()
+
+
+func _on_SaveImage_pressed():
+	$SaveImageDialog.popup(editor_interface.get_editor_viewport().get_global_rect())
+
+
+func _on_SaveImageDialog_file_selected(path):
+	preview_dialog_texture.texture.get_data().save_png(path)
+
+	# Update editor filesystem
+	editor_interface.get_resource_filesystem().scan()

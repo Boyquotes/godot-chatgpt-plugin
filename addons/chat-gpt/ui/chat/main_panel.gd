@@ -8,7 +8,6 @@ onready var response_text = $MarginContainer/HSplitContainer/VSplitContainer/VSp
 onready var prompt_text = $MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer/Prompt_LineEdit
 onready var prompt_title = $MarginContainer/HSplitContainer/VSplitContainer/VSplitContainer/Title_Label
 onready var send_button = $MarginContainer/HSplitContainer/VSplitContainer/HSplitContainer/Send_Button
-onready var root_node = get_node(root)
 
 
 func _on_HTTP_completed(result : String):
