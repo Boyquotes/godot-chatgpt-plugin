@@ -179,11 +179,13 @@ mode_overrides_title = false
 access = 2
 filters = PoolStringArray( "*.png" )
 
-[connection signal="images_request_completed" from="HTTP" to="." method="_on_HTTP_images_request_completed"]
+[connection signal="generated_images_request_completed" from="HTTP" to="." method="_on_HTTP_generated_images_request_completed"]
+[connection signal="variated_images_request_completed" from="HTTP" to="." method="_on_HTTP_variated_images_request_completed"]
 [connection signal="text_entered" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HSplitContainer/PromptEdit" to="." method="_on_PromtEdit_text_entered"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HSplitContainer/Button" to="." method="_on_Send_Button_pressed"]
 [connection signal="gui_input" from="PreviewDialog/Control" to="." method="_on_Close_gui_input"]
 [connection signal="pressed" from="PreviewDialog/Control/Previous" to="." method="_on_Previous_pressed"]
 [connection signal="pressed" from="PreviewDialog/Control/Next" to="." method="_on_Next_pressed"]
+[connection signal="pressed" from="PreviewDialog/Control/VBoxContainer/GenerateVariation" to="." method="_on_GenerateVariation_pressed"]
 [connection signal="pressed" from="PreviewDialog/Control/VBoxContainer/SaveImage" to="." method="_on_SaveImage_pressed"]
 [connection signal="file_selected" from="SaveImageDialog" to="." method="_on_SaveImageDialog_file_selected"]

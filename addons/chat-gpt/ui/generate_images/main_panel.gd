@@ -22,6 +22,15 @@ func _ready():
 		results_container.get_child(i).connect("gui_input", self, "_on_Picture_gui_input", [i])
 
 
+func _on_Picture_gui_input(event, index):
+	if event is InputEventMouseButton and \
+		event.button_index == 1 and \
+		event.is_pressed():
+			preview_dialog_texture.texture = results_container.get_child(index).texture
+			current_dialog_index = index
+			$PreviewDialog.popup(editor_interface.get_editor_viewport().get_global_rect())
+
+
 func _on_PromtEdit_text_entered(_new_text: String) -> void:
 	_on_Send_Button_pressed()
 
@@ -32,7 +41,7 @@ func _on_Send_Button_pressed() -> void:
 	prompt_text.text = "Generating images..."
 
 
-func _on_HTTP_images_request_completed(results) -> void:
+func _on_HTTP_generated_images_request_completed(results):
 	prompt_text.clear()
 	for i in range(results.size()):
 		if i >= results_container.get_child_count():
@@ -41,22 +50,13 @@ func _on_HTTP_images_request_completed(results) -> void:
 		results_container.get_child(i).texture = results[i]
 
 
-func _on_Picture_gui_input(event, index):
-	if event is InputEventMouseButton and \
-		event.button_index == 1 and \
-		event.is_pressed():
-			preview_dialog_texture.texture = results_container.get_child(index).texture
-			current_dialog_index = index
-			$PreviewDialog.popup(editor_interface.get_editor_viewport().get_global_rect())
-
-
 func _on_Previous_pressed():
-	current_dialog_index = min(current_dialog_index + 1, results_container.get_child_count() - 1)
+	current_dialog_index = max(current_dialog_index - 1, 0)
 	preview_dialog_texture.texture = results_container.get_child(current_dialog_index).texture
 
 
 func _on_Next_pressed():
-	current_dialog_index = max(current_dialog_index - 1, 0)
+	current_dialog_index = min(current_dialog_index + 1, results_container.get_child_count() - 1)
 	preview_dialog_texture.texture = results_container.get_child(current_dialog_index).texture
 
 
@@ -76,3 +76,18 @@ func _on_SaveImageDialog_file_selected(path):
 
 	# Update editor filesystem
 	editor_interface.get_resource_filesystem().scan()
+
+
+func _on_GenerateVariation_pressed():
+	$HTTP.image_variation(preview_dialog_texture.texture.get_data())
+	$PreviewDialog.hide()
+	prompt_text.text = "Generating varied images..."
+
+
+func _on_HTTP_variated_images_request_completed(results):
+	prompt_text.clear()
+	for i in range(results.size()):
+		if i >= results_container.get_child_count():
+			break
+
+		results_container.get_child(i).texture = results[i]
