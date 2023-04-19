@@ -5,28 +5,84 @@ const endpoint = "https://api.openai.com/v1/"
 
 # USE THIS SIGNALS TO GET RESULTS
 signal completions_request_completed(result)
-signal generated_images_request_completed(results)
-signal variated_images_request_completed(results)
+signal image_downloaded(index, texture)
 
 # EXCEPTION SIGNALS
 signal error()
 
-# INTERNAL SIGNALS (DON'T USE)
-signal image_downloaded(texture)
+
+# Helper functions
+func custom_headers(content_type = "application/json") -> PoolStringArray:
+	return PoolStringArray([
+		"Authorization: Bearer " + ProjectSettings.get("plugins/chatgpt/openai_api_key"),
+		"Content-Type: %s" % content_type,
+	])
 
 
-# CHATBOT
-func _on_completions_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
+func multipart_body(time_boundary: String, request_params: Dictionary) -> PoolByteArray:
+	var body : PoolByteArray
+	for k in request_params.keys():
+		var v = request_params[k]
+
+		body.append_array(String("--" + time_boundary).to_utf8())
+		body.append_array(String("\r\nContent-Disposition: form-data; name=\"%s\"" % k).to_utf8())
+
+		if v is Image:
+			body.append_array(String("; filename=\"test.png\"").to_utf8())
+
+		body.append_array(String("\r\n\r\n").to_utf8())
+
+		if v is Image:
+			body.append_array(v.save_png_to_buffer())
+		else:
+			body.append_array(String(v).to_utf8())
+
+		body.append_array("\r\n".to_utf8())
+
+	if not body.empty():
+		body.append_array(String("--" + time_boundary + "--").to_utf8())
+
+	return body
+
+
+func download_image(index: int, url: String):
+	var http = HTTPRequest.new()
+	add_child(http)
+	var http_error = http.request(url)
+
+	if http_error == OK:
+		var result = yield(http, "request_completed")
+
+		var image = Image.new()
+		var image_error = image.load_png_from_buffer(result[3])
+		if image_error != OK:
+			print("An error occurred while trying to display the image.")
+		else:
+			var texture = ImageTexture.new()
+			texture.create_from_image(image)
+			emit_signal("image_downloaded", index, texture)
+	else:
+		print("An error occurred in the HTTP request.")
+
+	http.queue_free()
+
+
+func _on_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray, callback: String):
 	var json = JSON.parse(body.get_string_from_utf8())
 	match response_code:
 		200:
-			emit_signal("completions_request_completed", json.result.choices[0].text)
+			call(callback, json.result)
 		401:
 			printerr("You didn't provide an OpenAI API key. You can obtain an API key from https://platform.openai.com/account/api-keys. Then set it up in Project Settings -> Plugins -> Chatgpt -> openai_api_key")
 			emit_signal("error")
 		_:
 			printerr(JSON.print(json.result.error.message))
 			emit_signal("error")
+
+
+# CHATBOT
+func _on_completions_request_completed(result):
+	emit_signal("completions_request_completed", result.choices[0].text)
 
 
 func completions(prompt: String):
@@ -41,75 +97,15 @@ func completions(prompt: String):
 		"presence_penalty": 0.5,
 	}
 
-	var headers = [
-		"Authorization: Bearer " + ProjectSettings.get("plugins/chatgpt/openai_api_key"),
-		"Content-Type: application/json",
-	]
-
-	connect("request_completed", self, "_on_completions_request_completed", [], CONNECT_ONESHOT)
-	request_raw(endpoint + "completions", headers, false, HTTPClient.METHOD_POST, JSON.print(request_params).to_utf8())
+	connect("request_completed", self, "_on_request_completed", ["_on_completions_request_completed"], CONNECT_ONESHOT)
+	request_raw(endpoint + "completions", custom_headers(), false, HTTPClient.METHOD_POST, JSON.print(request_params).to_utf8())
 
 
 # IMAGE GENERATION
-func _on_image_generation_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
-	var json = JSON.parse(body.get_string_from_utf8())
-	match response_code:
-		200:
-			var textures : Array
-			for image in json.result.data:
-				var image_download = HTTPRequest.new()
-				add_child(image_download)
-				image_download.connect("request_completed", self, "_on_image_download_request_completed")
-
-				var http_error = image_download.request(image.url)
-				if http_error == OK:
-					var texture = yield(self, "image_downloaded")
-					textures.push_back(texture)
-				else:
-					print("An error occurred in the HTTP request.")
-
-				image_download.queue_free()
-
-			emit_signal("generated_images_request_completed", textures)
-		_:
-			printerr(JSON.print(json.result.error.message))
-			emit_signal("error")
-
-
-func _on_image_download_request_completed(result, response_code, headers, body):
-	var image = Image.new()
-	var image_error = image.load_png_from_buffer(body)
-	if image_error != OK:
-		print("An error occurred while trying to display the image.")
-
-	var texture = ImageTexture.new()
-	texture.create_from_image(image)
-	emit_signal("image_downloaded", texture)
-
-
-func _on_image_variation_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
-	var json = JSON.parse(body.get_string_from_utf8())
-	match response_code:
-		200:
-			var textures : Array
-			for image in json.result.data:
-				var image_download = HTTPRequest.new()
-				add_child(image_download)
-				image_download.connect("request_completed", self, "_on_image_download_request_completed")
-
-				var http_error = image_download.request(image.url)
-				if http_error == OK:
-					var texture = yield(self, "image_downloaded")
-					textures.push_back(texture)
-				else:
-					print("An error occurred in the HTTP request.")
-
-				image_download.queue_free()
-
-			emit_signal("variated_images_request_completed", textures)
-		_:
-			printerr(JSON.print(json.result.error.message))
-			emit_signal("error")
+func _on_image_request_completed(result):
+	var textures : Array
+	for i in range(result.data.size()):
+		download_image(i, result.data[i].url)
 
 
 func image_generation(prompt: String):
@@ -121,36 +117,21 @@ func image_generation(prompt: String):
 		"size": "1024x1024",
 	}
 
-	var headers = [
-		"Authorization: Bearer " + ProjectSettings.get("plugins/chatgpt/openai_api_key"),
-		"Content-Type: application/json",
-	]
+	connect("request_completed", self, "_on_request_completed", ["_on_image_request_completed"], CONNECT_ONESHOT)
+	request_raw(endpoint + "images/generations", custom_headers(), false, HTTPClient.METHOD_POST, JSON.print(request_params).to_utf8())
 
-	connect("request_completed", self, "_on_image_generation_request_completed", [], CONNECT_ONESHOT)
-	request_raw(endpoint + "images/generations", headers, false, HTTPClient.METHOD_POST, JSON.print(request_params).to_utf8())
 
 func image_variation(image: Image):
 	var time_boundary = "--" + String(Time.get_ticks_msec())
-	var headers = [
-		"Authorization: Bearer " + ProjectSettings.get("plugins/chatgpt/openai_api_key"),
-		"Content-Type: multipart/form-data; boundary=" + time_boundary,
-	]
+	var request_params = {
+		"image": image,
+		"n": 4,
 
-	var body : PoolByteArray
-	body.append_array(String("--" + time_boundary).to_utf8())
-	body.append_array("\r\nContent-Disposition: form-data; name=\"image\"; filename=\"test.png\"\r\n".to_utf8())
-	body.append_array("\r\n".to_utf8())
-	body.append_array(image.save_png_to_buffer())
-	body.append_array("\r\n".to_utf8())
-	body.append_array(String("--" + time_boundary).to_utf8())
-	body.append_array("\r\nContent-Disposition: form-data; name=\"n\"\r\n".to_utf8())
-	body.append_array("\r\n4".to_utf8())
-	body.append_array("\r\n".to_utf8())
-	body.append_array(String("--" + time_boundary).to_utf8())
-	body.append_array("\r\nContent-Disposition: form-data; name=\"size\"\r\n".to_utf8())
-	body.append_array("\r\n1024x1024".to_utf8())
-	body.append_array("\r\n".to_utf8())
-	body.append_array(String("--" + time_boundary + "--").to_utf8())
+		# Must be one of 256x256, 512x512, or 1024x1024
+		"size": "1024x1024",
+	}
+	var body = multipart_body(time_boundary, request_params)
 
-	connect("request_completed", self, "_on_image_variation_request_completed", [], CONNECT_ONESHOT)
-	request_raw(endpoint + "images/variations", headers, false, HTTPClient.METHOD_POST, body)
+	connect("request_completed", self, "_on_request_completed", ["_on_image_request_completed"], CONNECT_ONESHOT)
+	request_raw(endpoint + "images/variations", custom_headers("multipart/form-data; boundary=" + time_boundary), false, HTTPClient.METHOD_POST, body)
+
