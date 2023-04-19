@@ -26,9 +26,11 @@ func _on_Picture_gui_input(event, index):
 	if event is InputEventMouseButton and \
 		event.button_index == 1 and \
 		event.is_pressed():
-			preview_dialog_texture.texture = results_container.get_child(index).texture
-			current_dialog_index = index
-			$PreviewDialog.popup(editor_interface.get_editor_viewport().get_global_rect())
+			var texture : Texture = results_container.get_child(index).texture
+			if (texture):
+				preview_dialog_texture.texture = texture
+				current_dialog_index = index
+				$PreviewDialog.popup(editor_interface.get_editor_viewport().get_global_rect())
 
 
 func _on_PromtEdit_text_entered(_new_text: String) -> void:
@@ -39,15 +41,6 @@ func _on_Send_Button_pressed() -> void:
 	$HTTP.image_generation(prompt_text.text)
 	prompt_label.text = prompt_text.text
 	prompt_text.text = "Generating images..."
-
-
-func _on_HTTP_generated_images_request_completed(results):
-	prompt_text.clear()
-	for i in range(results.size()):
-		if i >= results_container.get_child_count():
-			break
-
-		results_container.get_child(i).texture = results[i]
 
 
 func _on_Previous_pressed():
@@ -84,10 +77,5 @@ func _on_GenerateVariation_pressed():
 	prompt_text.text = "Generating varied images..."
 
 
-func _on_HTTP_variated_images_request_completed(results):
-	prompt_text.clear()
-	for i in range(results.size()):
-		if i >= results_container.get_child_count():
-			break
-
-		results_container.get_child(i).texture = results[i]
+func _on_HTTP_image_downloaded(index, texture):
+	results_container.get_child(index).texture = texture
