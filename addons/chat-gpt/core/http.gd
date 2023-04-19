@@ -135,3 +135,20 @@ func image_variation(image: Image):
 	connect("request_completed", self, "_on_request_completed", ["_on_image_request_completed"], CONNECT_ONESHOT)
 	request_raw(endpoint + "images/variations", custom_headers("multipart/form-data; boundary=" + time_boundary), false, HTTPClient.METHOD_POST, body)
 
+
+func image_edit(prompt: String, image: Image, mask: Image):
+	var time_boundary = "--" + String(Time.get_ticks_msec())
+	var request_params = {
+		"prompt": prompt,
+		"image": image,
+		"mask": mask,
+		"n": 4,
+
+		# Must be one of 256x256, 512x512, or 1024x1024
+		"size": "1024x1024",
+	}
+	var body = multipart_body(time_boundary, request_params)
+
+	connect("request_completed", self, "_on_request_completed", ["_on_image_request_completed"], CONNECT_ONESHOT)
+	request_raw(endpoint + "images/edits", custom_headers("multipart/form-data; boundary=" + time_boundary), false, HTTPClient.METHOD_POST, body)
+
