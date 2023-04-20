@@ -170,6 +170,13 @@ focus_mode = 1
 size_flags_horizontal = 3
 text = "Save Image As..."
 
+[node name="SaveResource" type="Button" parent="PreviewDialog/Control/VBoxContainer"]
+margin_top = 60.0
+margin_right = 150.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+text = "Save Resource As..."
+
 [node name="SaveImageDialog" type="FileDialog" parent="."]
 visible = true
 margin_right = 315.0
@@ -179,6 +186,14 @@ mode_overrides_title = false
 access = 2
 filters = PoolStringArray( "*.png" )
 
+[node name="SaveResourceDialog" type="FileDialog" parent="."]
+visible = true
+margin_right = 534.0
+margin_bottom = 130.0
+window_title = "Save Resource"
+mode_overrides_title = false
+filters = PoolStringArray( "*.tres" )
+
 [connection signal="image_downloaded" from="HTTP" to="." method="_on_HTTP_image_downloaded"]
 [connection signal="text_entered" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HSplitContainer/PromptEdit" to="." method="_on_PromtEdit_text_entered"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/HSplitContainer/Button" to="." method="_on_Send_Button_pressed"]
@@ -187,4 +202,6 @@ filters = PoolStringArray( "*.png" )
 [connection signal="pressed" from="PreviewDialog/Control/Next" to="." method="_on_Next_pressed"]
 [connection signal="pressed" from="PreviewDialog/Control/VBoxContainer/GenerateVariation" to="." method="_on_GenerateVariation_pressed"]
 [connection signal="pressed" from="PreviewDialog/Control/VBoxContainer/SaveImage" to="." method="_on_SaveImage_pressed"]
+[connection signal="pressed" from="PreviewDialog/Control/VBoxContainer/SaveResource" to="." method="_on_SaveResource_pressed"]
 [connection signal="file_selected" from="SaveImageDialog" to="." method="_on_SaveImageDialog_file_selected"]
+[connection signal="file_selected" from="SaveResourceDialog" to="." method="_on_SaveResourceDialog_file_selected"]
