@@ -152,3 +152,16 @@ func image_edit(prompt: String, image: Image, mask: Image):
 	connect("request_completed", self, "_on_request_completed", ["_on_image_request_completed"], CONNECT_ONESHOT)
 	request_raw(endpoint + "images/edits", custom_headers("multipart/form-data; boundary=" + time_boundary), false, HTTPClient.METHOD_POST, body)
 
+
+func image_edit_rect(prompt: String, image: Image, rect: Rect2):
+	var mask = Image.new()
+	mask.create(
+		image.get_width(),
+		image.get_height(),
+		false,
+		Image.FORMAT_RGBA8
+	)
+	mask.fill(Color.black)
+	mask.fill_rect(rect, Color.transparent)
+
+	image_edit(prompt, image, mask)
