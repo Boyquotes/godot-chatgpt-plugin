@@ -64,4 +64,4 @@ func _on_image_variations_requested(texture):
 	get_editor_interface().set_main_screen_editor("AI Assist")
 	var tabs =  main_panel_instance.get_node("MarginContainer/TabContainer")
 	tabs.current_tab = 1
-	tabs.get_child(1).generate_image_variations(texture)
+	tabs.get_child(1).generate_image_variations(texture.get_data())
